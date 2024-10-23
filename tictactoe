@@ -1,0 +1,125 @@
+Tic-Tac-Toe Game in Java
+Project Description:
+The Tic-Tac-Toe game is a simple two-player game where each player takes turns marking a 3x3 grid with their respective symbols, X or O. The game continues until one player forms a line of three consecutive marks (horizontally, vertically, or diagonally) or the board is completely filled with no winner, resulting in a draw.
+
+This Java project focuses on console-based interaction and showcases the use of fundamental programming concepts like arrays, loops, and conditionals to implement the game logic.
+
+Project Objectives:
+Implement a two-player Tic-Tac-Toe game.
+Demonstrate the use of arrays to represent the game board.
+Develop logic to check for a winner after each move.
+Handle invalid inputs and provide feedback to the players.
+End the game when a player wins or the board is full.
+Features:
+Game Board: A 3x3 grid is displayed for players to select their moves.
+Two Players: Players take turns choosing an empty cell to mark with either X or O.
+Winner Detection: The game checks for a winner after every move.
+Tie Detection: If all positions are filled without a winner, the game ends in a tie.
+Validations: The game ensures that players only select valid and available positions.
+Code:
+java
+Copy code
+import java.util.Scanner;
+
+public class TicTacToe {
+    static char[][] board = {
+            {' ', ' ', ' '},
+            {' ', ' ', ' '},
+            {' ', ' ', ' '}
+    };
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        char currentPlayer = 'X';
+        boolean gameOn = true;
+
+        while (gameOn) {
+            printBoard();
+            playerMove(currentPlayer, scanner);
+            gameOn = !isWinner(currentPlayer);
+            if (gameOn) {
+                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+            } else {
+                System.out.println("Player " + currentPlayer + " wins!");
+                printBoard();
+                break;
+            }
+
+            if (isBoardFull()) {
+                System.out.println("It's a tie!");
+                printBoard();
+                break;
+            }
+        }
+    }
+
+    // Display the board
+    public static void printBoard() {
+        System.out.println("  0 1 2");
+        for (int i = 0; i < 3; i++) {
+            System.out.print(i + " ");
+            for (int j = 0; j < 3; j++) {
+                System.out.print(board[i][j]);
+                if (j < 2) System.out.print("|");
+            }
+            System.out.println();
+            if (i < 2) System.out.println("  -----");
+        }
+    }
+
+    // Handle player move
+    public static void playerMove(char player, Scanner scanner) {
+        int row, col;
+        while (true) {
+            System.out.println("Player " + player + ", enter your move (row and column): ");
+            row = scanner.nextInt();
+            col = scanner.nextInt();
+
+            if (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == ' ') {
+                board[row][col] = player;
+                break;
+            } else {
+                System.out.println("This move is not valid. Try again.");
+            }
+        }
+    }
+
+    // Check for a winner
+    public static boolean isWinner(char player) {
+        // Check rows, columns, and diagonals
+        return (board[0][0] == player && board[0][1] == player && board[0][2] == player) ||
+               (board[1][0] == player && board[1][1] == player && board[1][2] == player) ||
+               (board[2][0] == player && board[2][1] == player && board[2][2] == player) ||
+               (board[0][0] == player && board[1][0] == player && board[2][0] == player) ||
+               (board[0][1] == player && board[1][1] == player && board[2][1] == player) ||
+               (board[0][2] == player && board[1][2] == player && board[2][2] == player) ||
+               (board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
+               (board[0][2] == player && board[1][1] == player && board[2][0] == player);
+    }
+
+    // Check if the board is full
+    public static boolean isBoardFull() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == ' ') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+How the Code Works:
+Game Board: A 2D array represents the 3x3 grid where players place their marks.
+Player Moves: Each player enters their move as a row and column index.
+Winner Detection: After each move, the program checks if the current player has three marks in a row, column, or diagonal.
+Full Board Check: The program checks if the board is full and declares a tie if there’s no winner.
+Game Loop: The game continues until a player wins or the board is full.
+Tools and Technologies:
+Java: For implementing the logic and handling user input.
+Scanner: To capture user input from the console.
+2D Array: To manage the game board.
+Future Enhancements:
+Implement an AI for single-player mode where the computer plays against the user.
+Create a graphical version using Java Swing for a better user interface.
+Add a scoring system to track wins, losses, and ties over multiple rounds.
